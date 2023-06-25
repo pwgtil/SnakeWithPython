@@ -18,7 +18,7 @@ class GameState:
         new_head = self.next_head(self.direction)
         self.snake.append(new_head)
         if new_head == self.food:
-            self.food = self.set_random_food_location()
+            self.set_random_food_location()
         else:
             self.snake = self.snake[1:]
 
