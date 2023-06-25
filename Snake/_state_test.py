@@ -214,3 +214,30 @@ class GameStateTest(unittest.TestCase):
 
         self.assertEquals(expected_state, state.snake)
         self.assertEquals(False, state.food in state.snake)
+
+    # =======================================
+    # Collision
+    # =======================================
+    def test_snake_dies(self):
+        state = GameState(
+            snake=[
+                Position(1, 2),
+                Position(2, 2),
+                Position(3, 2),
+                Position(3, 3),
+                Position(2, 3)
+            ],
+            direction=Direction.UP,
+            food=Position(3, 1),
+            field_size=25
+        )
+
+        state.step()
+
+        from game_state import INITIAL_SNAKE
+        self.assertEquals(INITIAL_SNAKE, state.snake)
+        self.assertFalse(state.food in state.snake)
+        from game_state import INITIAL_DIRECTION
+        self.assertEquals(INITIAL_DIRECTION, state.direction)
+        self.assertEquals(25, state.field_size)
+

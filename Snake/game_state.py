@@ -2,6 +2,13 @@ from position import Position
 from direction import Direction
 from random import randint
 
+INITIAL_SNAKE = [
+    Position(1, 2),
+    Position(2, 2),
+    Position(3, 2)
+]
+INITIAL_DIRECTION = Direction.RIGHT
+
 
 class GameState:
     def __init__(self,
@@ -16,7 +23,14 @@ class GameState:
 
     def step(self):
         new_head = self.next_head(self.direction)
+
+        collision = new_head in self.snake
+        if collision:
+            self.set_initial_state()
+            return
+
         self.snake.append(new_head)
+
         if new_head == self.food:
             self.set_random_food_location()
         else:
@@ -40,3 +54,8 @@ class GameState:
         )
         if self.food in self.snake:
             self.set_random_food_location()
+
+    def set_initial_state(self):
+        self.snake = INITIAL_SNAKE[:]
+        self.direction = INITIAL_DIRECTION
+        self.set_random_food_location()
