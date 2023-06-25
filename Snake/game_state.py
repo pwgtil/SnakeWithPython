@@ -1,5 +1,6 @@
 from position import Position
 from direction import Direction
+from random import randint
 
 
 class GameState:
@@ -16,7 +17,10 @@ class GameState:
     def step(self):
         new_head = self.next_head(self.direction)
         self.snake.append(new_head)
-        self.snake = self.snake[1:]
+        if new_head == self.food:
+            self.food = self.set_random_food_location()
+        else:
+            self.snake = self.snake[1:]
 
     def next_head(self, direction):
         pos = self.snake[-1]
@@ -28,3 +32,11 @@ class GameState:
             return Position((pos.x + 1) % self.field_size, pos.y)
         elif direction == Direction.LEFT:
             return Position((pos.x - 1) % self.field_size, pos.y)
+
+    def set_random_food_location(self):
+        self.food = Position(
+            randint(0, self.field_size - 1),
+            randint(0, self.field_size - 1)
+        )
+        if self.food in self.snake:
+            self.set_random_food_location()

@@ -6,6 +6,9 @@ from direction import Direction
 
 class GameStateTest(unittest.TestCase):
 
+    # =======================================
+    # Simple moves
+    # =======================================
     def test_snake_should_move_right(self):
         state = GameState(
             snake=[
@@ -94,6 +97,9 @@ class GameStateTest(unittest.TestCase):
 
         self.assertEquals(expected_state, state.snake)
 
+    # =======================================
+    # Moves over the edge of the map
+    # =======================================
     def test_snake_should_move_up_on_top(self):
         state = GameState(
             snake=[
@@ -181,3 +187,30 @@ class GameStateTest(unittest.TestCase):
         ]
 
         self.assertEquals(expected_state, state.snake)
+
+    # =======================================
+    # Eating food
+    # =======================================
+    def test_snake_eats_food(self):
+        state = GameState(
+            snake=[
+                Position(1, 2),
+                Position(2, 2),
+                Position(3, 2)
+            ],
+            direction=Direction.UP,
+            food=Position(3, 1),
+            field_size=20
+        )
+
+        state.step()
+
+        expected_state = [
+            Position(1, 2),
+            Position(2, 2),
+            Position(3, 2),
+            Position(3, 1)
+        ]
+
+        self.assertEquals(expected_state, state.snake)
+        self.assertEquals(False, state.food in state.snake)
