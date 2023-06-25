@@ -21,10 +21,10 @@ class GameState:
     def next_head(self, direction):
         pos = self.snake[-1]
         if direction == Direction.UP:
-            return Position(pos.x, pos.y - 1)
+            return Position(pos.x, (pos.y - 1) % self.field_size)
         elif direction == Direction.DOWN:
-            return Position(pos.x, pos.y + 1)
+            return Position(pos.x, (pos.y + 1) % self.field_size)
         elif direction == Direction.RIGHT:
-            return Position(pos.x + 1, pos.y)
+            return Position((pos.x + 1) % self.field_size, pos.y)
         elif direction == Direction.LEFT:
-            return Position(pos.x - 1, pos.y)
+            return Position((pos.x - 1) % self.field_size, pos.y)
