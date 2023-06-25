@@ -59,3 +59,11 @@ class GameState:
         self.snake = INITIAL_SNAKE[:]
         self.direction = INITIAL_DIRECTION
         self.set_random_food_location()
+
+    def turn(self, direction):
+        if self.can_turn(direction):
+            self.direction = direction
+
+    def can_turn(self, direction):
+        new_head = self.next_head(direction)
+        return new_head != self.snake[-2]
